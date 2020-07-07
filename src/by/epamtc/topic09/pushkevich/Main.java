@@ -5,16 +5,15 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        String line = "Learn Java, Be Happy!";
-        System.out.println(getSumOfBigNumbers("23857348349", "2385735345435345345323423423432448349"));
 
     }
+
 
     /* Разделяет четные и нечетные символы по разным строкам
     1й элемент массива - четные символы
     2й - нечетные
     */
-    private static String[] getOddAndEvenChars(String line) {
+    private static String[] linesWithOddAndEvenChars(String line) {
         StringBuilder odd = new StringBuilder();
         StringBuilder even = new StringBuilder();
         String[] result = new String[2];
@@ -47,56 +46,59 @@ public class Main {
 
     // Удаляет повторяющиеся символы
     private static String removeSameChars(String line) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder lineWithoutSameChars = new StringBuilder();
 
 //        line.chars().distinct().forEach(c -> sb.append((char) c));
 
-        Set<Character> set = new LinkedHashSet<>();
+        Set<Character> uniqueChars = new LinkedHashSet<>();
 
         for (int i = 0; i < line.length(); i++) {
-            set.add(line.charAt(i));
+            uniqueChars.add(line.charAt(i));
         }
-        for (Character c : set) {
-            sb.append(c);
+        for (Character c : uniqueChars) {
+            lineWithoutSameChars.append(c);
         }
 
-        return String.valueOf(sb);
+        return String.valueOf(lineWithoutSameChars);
     }
 
     // Возвращает частоту встречаемости символа в строке
     private static int getCountOfCharInLine(String line, char c) {
-        int count = 0;
+        int countOfCharInLine = 0;
 
         for (int i = 0; i < line.length(); i++) {
-            if (line.charAt(i) == c) count++;
+            if (line.charAt(i) == c) countOfCharInLine++;
         }
 
-        return count;
+        return countOfCharInLine;
     }
 
     // Возвращает перевернутую строку
-    private static String getReversedLine(String line) {
-        StringBuilder sb = new StringBuilder(line);
-        sb.reverse();
+    private static String reversedLine(String line) {
+        StringBuilder resultLine = new StringBuilder(line);
 
-        return String.valueOf(sb);
+        resultLine.reverse();
+
+        return String.valueOf(resultLine);
     }
 
     // Всталяет подстроку в строку
     private static String insertSubLine(String line, int position, String subLine) {
 
-        StringBuilder sb = new StringBuilder(line);
-        sb.insert(position, subLine);
+        StringBuilder resultLine = new StringBuilder(line);
 
-        return String.valueOf(sb);
+        resultLine.insert(position, subLine);
+
+        return String.valueOf(resultLine);
     }
 
     // Удаляет подстроку из строки по индексу
     private static String removeSubLine(String line, int start, int end) {
-        StringBuilder sb = new StringBuilder(line);
-        sb.delete(start, end);
+        StringBuilder resultLine = new StringBuilder(line);
 
-        return String.valueOf(sb);
+        resultLine.delete(start, end);
+
+        return String.valueOf(resultLine);
 
     }
 
@@ -167,44 +169,53 @@ public class Main {
         }
 
         String[] words = line.split(" ");
+
         //В словах с максимальной длиной меняем символы
         for (Integer aLongestWordsIndex : longestWordsIndex) {
             words[aLongestWordsIndex] = words[aLongestWordsIndex].replace('a', 'b');
         }
+
         for (String s : words) {
             finalLine.append(s).append(" ");
         }
+
         return String.valueOf(finalLine);
     }
 
     // Возвращает длинну самого короткого слова
-    private static int getShortestWordLength(String line) {
-        List<String> words = new ArrayList<>(Arrays.asList(line.split("[\\p{Punct}\\s]+")));
+    private static int shortestWordLength(String line) {
+        String punctuationSplitter = "[\\p{Punct}\\s]+";
+
+        List<String> words = new ArrayList<>(Arrays.asList(line.split(punctuationSplitter)));
+
         words.sort(String::compareToIgnoreCase);
 
         return words.get(0).length();
     }
 
     // Возвращает количество слов в строке
-    private static int getCountOfWordsInLine(String line) {
-        List<String> words = new ArrayList<>(Arrays.asList(line.split("[\\p{Punct}\\s]+")));
+    private static int countOfWordsInLine(String line) {
+        String punctuationSplitter = "[\\p{Punct}\\s]+";
+
+        List<String> words = new ArrayList<>(Arrays.asList(line.split(punctuationSplitter)));
+
         return words.size();
     }
 
     // Возвращает строку с замененными местами словами по их индексам
-    private static String getLineWithReplacedWords(String line, int firstWord, int secondWord) {
+    private static String lineWithReplacedWords(String line, int firstWord, int secondWord) {
         String[] s = line.split(" ");
-        StringBuilder sb = new StringBuilder();
+        StringBuilder finalLine = new StringBuilder();
 
         String tmp = s[firstWord - 1];
         s[firstWord - 1] = s[secondWord - 1];
         s[secondWord - 1] = tmp;
 
         for (String value : s) {
-            sb.append(value).append(" ");
+            finalLine.append(value).append(" ");
         }
 
-        return String.valueOf(sb);
+        return String.valueOf(finalLine);
     }
 
     // Удаляет последнее слово в строке
@@ -214,14 +225,15 @@ public class Main {
 
     // Добавляет пробел в строку по индексу
     private static String addSpaceInLine(String line, int position) {
-        StringBuilder sb = new StringBuilder(line);
-        sb.insert(position, ' ');
+        StringBuilder resultLine = new StringBuilder(line);
 
-        return String.valueOf(sb);
+        resultLine.insert(position, ' ');
+
+        return String.valueOf(resultLine);
     }
 
     // Проверяет, является ли строка полиндромом
-    private static boolean printIsLinePalindrome(String line) {
+    private static boolean isLinePalindrome(String line) {
         boolean isPalindrome = true;
         line = line.toLowerCase();
 
@@ -245,11 +257,13 @@ public class Main {
         if (line.contains(target)) {
             result = line.replace(target, newSubLine);
             return result;
-        } else return String.valueOf(-1);
+        }
+
+        else return String.valueOf(-1);
 
     }
 
-    // Сложение очень больших целых числе
+    // Сложение очень больших целых числел
     private static String getSumOfBigNumbers(String firstNumb, String secondNumb) {
         StringBuilder result = new StringBuilder();
         int index = 0; // Индекс для цикла
@@ -310,15 +324,16 @@ public class Main {
 
     // Удаляет слова заданной длины
     private static String removeWordsByLength(String line, int length) {
-        List<String> onlyWords = new ArrayList<>(Arrays.asList(line.split("[\\p{Punct}\\s]+")));
-        StringBuilder sb = new StringBuilder();
+        String punctuationSplitter = "[\\p{Punct}\\s]+";
+        List<String> onlyWords = new ArrayList<>(Arrays.asList(line.split(punctuationSplitter)));
+        StringBuilder finalLine = new StringBuilder();
 
         for (String onlyWord : onlyWords) {
             if (onlyWord.length() != length)
-                sb.append(onlyWord).append(" ");
+                finalLine.append(onlyWord).append(" ");
         }
 
-        return String.valueOf(sb);
+        return String.valueOf(finalLine);
     }
 
     // Удаляет лишние пробелы
@@ -328,7 +343,9 @@ public class Main {
 
     // Возвращает слова из строки
     private static String[] getWordsFromLine(String line) {
-        return line.split("[\\p{Punct}\\s]+");
+        String punctuationSplitter = "[\\p{Punct}\\s]+";
+
+        return line.split(punctuationSplitter);
     }
 
 }
